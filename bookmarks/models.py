@@ -13,26 +13,23 @@ class Bookmark(models.Model):
     def __str__(self):
         return "(" + self.name + ": " + self.url + ")"
 
-    def edit_name(self, new_name):
+    def check_history(self):
         if (self.history == ''):
             self.history += 'name_created: ' + self.name
             self.history += '{}url_created:' + self.url
 
+    def edit_name(self, new_name):
+        self.check_history()
         self.history += '{}' + 'name_changed:' + self.name
         self.name = new_name
 
     def edit_url(self, new_url):
-        if (self.history == ''):
-            self.history += 'name_created: ' + self.name
-            self.history += '{}url_created: ' + self.url
-
+        self.check_history()
         self.history += '{}' + 'url_changed: ' + self.url
         self.url = new_url
 
     def print_history(self):
-        if (self.history == ''):
-            self.history += 'name_created: ' + self.name
-            self.history += '{}url_created: ' + self.url
+        self.check_history()
 
         hist = self.history.split('{}')
         for i, item in enumerate(hist):
