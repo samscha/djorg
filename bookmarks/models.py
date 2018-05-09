@@ -7,7 +7,9 @@ class Bookmark(models.Model):
     url = models.URLField('URL', unique=True)
     name = models.CharField(max_length=200)
     notes = models.TextField(blank=True)
-    created = models.DateTimeField('date created', editable=False)
+    created = models.DateTimeField(
+        'date created',  auto_now_add=True, editable=False)
+    modified = models.DateTimeField('date modified', auto_now=True)
     history = models.TextField(blank=True)
 
     def __str__(self):
