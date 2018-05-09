@@ -1,10 +1,14 @@
-<h1>Bookmarks</h1>
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'bookmarks/style.css' %}" />
+
+<h1 class="Title">Bookmarks</h1>
 
 {% if bookmarks %}
 <ol>
   {% for bookmark in bookmarks %}
   <li>
-    <a href="{{ bookmark.url }}">{{ bookmark.name }}</a>
+    <a class="ListItemHref" href="{{ bookmark.url }}">{{ bookmark.name }}</a>
   </li>
   {% endfor %}
 </ol>
