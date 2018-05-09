@@ -1,6 +1,6 @@
 .Title {
   text-align: center;
-  margin: 50px 0;
+  margin: 50px 0 0 0;
 }
 
 .ListItemHref {
@@ -11,4 +11,29 @@
 .ListItemHref:hover {
   color: blue;
   text-decoration: underline;
+}
+
+.ListItemHref:focus {
+  outline: none;
+}
+
+.ToggleNewBookmarkButton {
+  margin: 10px 5%;
+  margin-bottom: 0;
+}
+
+/* .NewBookmarkForm {
+  display: none;
+} */
+
+.FormItems {
+  margin: 25px 0;
+}
+
+.FormItem {
+  margin: 0 5%;
+}
+
+.FormSubmit {
+  margin: 0 5%;
 }
