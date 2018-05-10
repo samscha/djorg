@@ -1,3 +1,24 @@
+.ToggleNewBookmarkButtonDiv {
+  margin-left: auto;
+  width: 35px;
+  height: 35px;
+  /* margin: 0 auto; */
+  margin-bottom: 0;
+}
+
+.ToggleNewBookmarkButton {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+
+  background: white;
+  border: solid 1px black;
+
+  font-size: 20px;
+  /* border-color: black; */
+  /* border-style: solid; */
+}
+
 .Title {
   text-align: center;
   margin: 50px 0 0 0;
@@ -17,23 +38,48 @@
   outline: none;
 }
 
-.ToggleNewBookmarkButton {
-  margin: 10px 5%;
-  margin-bottom: 0;
+.NoBookmarks {
+  display: flex;
+  justify-content: center;
 }
 
-/* .NewBookmarkForm {
-  display: none;
-} */
+.ToggleNewBookmarkButton:hover {
+  background: #c5c5c5;
+  color: white;
+  border: #c5c5c5;
+}
+
+.NewBookmarkForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 500px;
+  margin: 0 auto;
+  /* display: none; */
+}
 
 .FormItems {
-  margin: 25px 0;
+  display: flex;
+  flex-direction: inherit;
+  align-items: center;
+  /* margin: 25px 0; */
+  width: 450px;
+  margin: 25px 0 7px 0;
 }
 
 .FormItem {
-  margin: 0 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FormItem input {
+  /* width: 200px; */
+  margin: 7px auto;
 }
 
 .FormSubmit {
-  margin: 0 5%;
+  /* margin: 0 5%; */
+  margin: 0 auto;
 }

@@ -1,0 +1,34 @@
+<form class="NewBookmarkForm" id="NewBookmarkFormId" action="/bookmarks/" method="POST">
+  {% csrf_token %}
+  <div class="FormItems">
+    {% for field in form %}
+    <div class="FormItem">
+      <div class="FormItem__label">
+        {{ field.label_tag }}
+      </div>
+      <div class="FormItem__value">
+        {{ field }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <input class="FormSubmit" type="submit" value="Create">
+</form>
+
+<script>
+  document.getElementById("NewBookmarkFormId").style.display = 'none'
+
+  function ToggleNewBookmarkForm() {
+    const x = document.getElementById("NewBookmarkFormId")
+    const y = document.getElementById("ToggleNewBookmarkButtonId")
+
+    if (x.style.display === 'none' || !x) {
+      x.style.display = 'flex'
+      y.textContent = 'x'
+    } else {
+      x.style.display = 'none'
+      y.textContent = '+'
+    }
+  }
+</script>

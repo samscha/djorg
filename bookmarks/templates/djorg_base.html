@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{% block title %} Djorg{% endblock %}</title>
+  {# Load (bootstrap) CSS and JavaScript #}
+</head>
+
+<body>
+  <div id="menu">
+    {% block menu %}
+    <ul>
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a a href="/bookmarks">Bookmarks</a>
+      </li>
+    </ul>
+    {% endblock %}
+
+    <div id="content">
+      {% block content %}
+      <h1>Welcome to
+        <code>djorg</code>
+      </h1>
+      {% endblock %}
+    </div>
+  </div>
+</body>
+
+</html>

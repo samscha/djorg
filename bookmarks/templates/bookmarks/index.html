@@ -1,8 +1,15 @@
-{% load static %}
-
+{% extends "djorg_base.html" %} {% load static %} {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'bookmarks/style.css' %}" />
 
-<h1 class="Title">Bookmarks</h1>
+<div class="ToggleNewBookmarkButtonDiv">
+  <button class="ToggleNewBookmarkButton" id="ToggleNewBookmarkButtonId" onclick="ToggleNewBookmarkForm()">
+    +
+  </button>
+</div>
+
+{% include "bookmarks/forms.html" %}
+
+<h1 class="Title">Public Bookmarks</h1>
 
 {% if bookmarks %}
 <ol class="Bookmarks">
@@ -14,39 +21,20 @@
 </ol>
 
 {% else %}
-<p>No bookmarks</p>
+<p class="NoBookmarks">No bookmarks</p>
 {% endif %}
 
-<button class="ToggleNewBookmarkButton" id="ToggleNewBookmarkButtonId" onclick="ToggleNewBookmarkForm()">
-  +
-</button>
+<h1 class="Title">Personal Bookmarks</h1>
 
-<form class="NewBookmarkForm" id="NewBookmarkFormId" action="/your-name/" method="post">
-  <div class="FormItems">
-    <div class="FormItem">
-      <input id="new_url" type="text" name="new_url" value="{{ new_url }}" placeholder="URL">
-    </div>
-    <div class="FormItem">
-      <input id="new_name" type="text" name="new_name" value="{{ new_name }}" placeholder="Name">
-    </div>
-  </div>
+{% if personal_bookmarks %}
+<ol class="Bookmarks">
+  {% for bookmark in personal_bookmarks %}
+  <li>
+    <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
+  </li>
+  {% endfor %}
+</ol>
 
-  <input class="FormSubmit" type="submit" value="Create">
-</form>
-
-<script>
-  document.getElementById("NewBookmarkFormId").style.display = 'none'
-
-  function ToggleNewBookmarkForm() {
-    const x = document.getElementById("NewBookmarkFormId")
-    const y = document.getElementById("ToggleNewBookmarkButtonId")
-
-    if (x.style.display === 'none' || !x) {
-      x.style.display = 'block'
-      y.textContent = 'x'
-    } else {
-      x.style.display = 'none'
-      y.textContent = '+'
-    }
-  }
-</script>
+{% else %}
+<p class="NoBookmarks">No personal bookmarks</p>
+{% endif %} {% endblock %}

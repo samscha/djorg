@@ -1,4 +1,5 @@
 from uuid import uuid4
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -40,3 +41,7 @@ class Bookmark(models.Model):
         print('------end')
         print('current_name: %s' % self.name)
         print('current_url: %s' % self.url)
+
+
+class PersonalBookmark(Bookmark):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
