@@ -132,19 +132,24 @@ USE_TZ = True
 #     os.path.join(BASE_DIR, "static"),
 # ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
+# # Static files (CSS, JavaScript, Images)
+# # https://docs.djangoproject.com/en/1.9/howto/static-files/
+# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+# STATIC_URL = '/static/'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+#     os.path.join(BASE_DIR, 'bookmarks/static'),
+#     os.path.join(BASE_DIR, 'bookmarks/static/bookmarks'),
+#     os.path.join(BASE_DIR, 'djorg'),
+#     os.path.join(BASE_DIR, ''),
+#     os.path.join(PROJECT_ROOT, 'staticfiles'),
+# )
+
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'bookmarks/static'),
-    os.path.join(BASE_DIR, 'bookmarks/static/bookmarks'),
-    os.path.join(BASE_DIR, 'djorg'),
-    os.path.join(BASE_DIR, ''),
-    os.path.join(PROJECT_ROOT, 'staticfiles'),
-)
