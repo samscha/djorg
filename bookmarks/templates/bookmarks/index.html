@@ -14,9 +14,15 @@
 {% if bookmarks %}
 <ol class="Bookmarks">
   {% for bookmark in bookmarks %}
-  <li>
-    <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
-  </li>
+  <div class="Bookmark">
+    <form class="DeleteBookmarkButton" action="/bookmarks/" method="POST">
+      {% csrf_token %}
+      <input class="FormSubmit" type="submit" value="x">
+    </form>
+    <li class="ListItem">
+      <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
+    </li>
+  </div>
   {% endfor %}
 </ol>
 

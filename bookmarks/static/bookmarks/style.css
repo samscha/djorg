@@ -24,6 +24,24 @@
   margin: 50px 0 0 0;
 }
 
+.Bookmarks {
+  font-size: 20px;
+}
+
+.DeleteBookmarkButton {
+  display: inline;
+}
+
+.DeleteBookmarkButton:hover {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ListItem {
+  display: inline;
+}
+
 .ListItemHref {
   color: black;
   text-decoration: none;
