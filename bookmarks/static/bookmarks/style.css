@@ -111,7 +111,7 @@ body {
   justify-content: center;
   margin-right: 7px;
   outline: none;
-
+  background: white;
   border: solid 1px black;
 }
 
@@ -119,7 +119,8 @@ body {
   background: red;
   color: white;
   border: solid 1px red;
-  cursor: pointer;
+  /* cursor: pointer; */
+  cursor: not-allowed; /* CHANGE BACK TO POINTER WHEN DELETE IS WORKING */
 }
 
 .DeleteBookmarkButtonSubmitButton {

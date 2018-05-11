@@ -17,7 +17,7 @@
 <ul class="Bookmarks">
   {% for bookmark in bookmarks %}
   <div class="Bookmark">
-    <form class="DeleteBookmarkButton" action="{% url 'bookmarks:delete' %}" method="POST">
+    <form class="DeleteBookmarkButton" action="" method="POST">
       {% csrf_token %}
       <input class="DeleteBookmarkButtonSubmitButton" type="submit" value="x">
     </form>
