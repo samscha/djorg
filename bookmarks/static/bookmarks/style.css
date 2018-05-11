@@ -1,5 +1,6 @@
 body {
   min-width: 550px;
+  max-width: 1000px;
 }
 
 .StatusBar {
