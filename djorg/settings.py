@@ -143,6 +143,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'bookmarks/static'),
+    os.path.join(BASE_DIR, 'bookmarks/static/bookmarks'),
     os.path.join(BASE_DIR, 'djorg'),
     os.path.join(BASE_DIR, ''),
     os.path.join(PROJECT_ROOT, 'staticfiles'),
