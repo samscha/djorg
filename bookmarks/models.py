@@ -14,7 +14,7 @@ class Bookmark(models.Model):
     history = models.TextField(blank=True)
 
     def __str__(self):
-        return "(" + self.name + ": " + self.url + ")"
+        return self.name + " (" + self.url + ")"
 
     def check_history(self):
         if (self.history == ''):

@@ -1,5 +1,12 @@
-<form class="NewBookmarkForm" id="NewBookmarkFormId" action="/bookmarks/" method="POST">
+{% if error_message %}
+<p>
+  <strong>{{ error_message }}</strong>
+</p>{% endif %}
+
+<form class="NewBookmarkForm" id="NewBookmarkFormId" action="{% url 'bookmarks:index' %}" method="POST">
   {% csrf_token %}
+  <h1 class="NewBookmarkTitle">Add New Bookmark</h1>
+
   <div class="FormItems">
     {% for field in form %}
     <div class="FormItem">

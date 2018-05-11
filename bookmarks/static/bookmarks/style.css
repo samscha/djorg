@@ -1,8 +1,16 @@
+body {
+  min-width: 550px;
+}
+
+.StatusBar {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 .ToggleNewBookmarkButtonDiv {
-  margin-left: auto;
+  margin-right: 1px;
   width: 35px;
   height: 35px;
-  /* margin: 0 auto; */
   margin-bottom: 0;
 }
 
@@ -10,13 +18,73 @@
   width: 100%;
   height: 100%;
   margin: 0 auto;
-
   background: white;
   border: solid 1px black;
-
   font-size: 20px;
-  /* border-color: black; */
-  /* border-style: solid; */
+  outline: none;
+}
+
+.ToggleNewBookmarkButton:hover {
+  cursor: pointer;
+}
+
+.ToggleNewBookmarkButton:hover {
+  background: #c5c5c5;
+  color: white;
+  border: #c5c5c5;
+}
+
+.NewBookmarkForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 500px;
+  margin: 12px auto;
+  padding: 20px 0;
+  /* background: #c5c5c5; */
+  border: 1px solid #c5c5c5;
+}
+
+.NewBookmarkTitle {
+  margin: 0 0 50px 0;
+}
+
+.FormItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.FormItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+
+/* 
+.FormItem__label {
+  display: inline-block;
+}
+
+.FormItem__value {
+  display: inline-block;
+} */
+
+.FormSubmit {
+  /* font-size: 20px; */
+  margin: 50px 0 0 0;
+  width: 85px;
+  height: 35px;
+  border: 1px solid black;
+}
+
+.FormSubmit:hover {
+  color: white;
+  background: #c5c5c5;
+  border: 1px solid #c5c5c5;
 }
 
 .Title {
@@ -28,18 +96,34 @@
   font-size: 20px;
 }
 
-.DeleteBookmarkButton {
-  display: inline;
+.Bookmark {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  align-items: center;
+  padding: 2px 0;
+  margin: 5px 0;
 }
 
-.DeleteBookmarkButton:hover {
-  color: red;
-  font-weight: bold;
+.DeleteBookmarkButtonSubmitButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 7px;
+  outline: none;
+
+  border: solid 1px black;
+}
+
+.DeleteBookmarkButtonSubmitButton:hover {
+  background: red;
+  color: white;
+  border: solid 1px red;
   cursor: pointer;
 }
 
-.ListItem {
-  display: inline;
+.DeleteBookmarkButtonSubmitButton {
+  text-align: center;
 }
 
 .ListItemHref {
@@ -59,45 +143,4 @@
 .NoBookmarks {
   display: flex;
   justify-content: center;
-}
-
-.ToggleNewBookmarkButton:hover {
-  background: #c5c5c5;
-  color: white;
-  border: #c5c5c5;
-}
-
-.NewBookmarkForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 500px;
-  margin: 0 auto;
-  /* display: none; */
-}
-
-.FormItems {
-  display: flex;
-  flex-direction: inherit;
-  align-items: center;
-  /* margin: 25px 0; */
-  width: 450px;
-  margin: 25px 0 7px 0;
-}
-
-.FormItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.FormItem input {
-  /* width: 200px; */
-  margin: 7px auto;
-}
-
-.FormSubmit {
-  /* margin: 0 5%; */
-  margin: 0 auto;
 }
