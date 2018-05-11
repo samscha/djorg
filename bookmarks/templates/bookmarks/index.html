@@ -17,10 +17,9 @@
 <ul class="Bookmarks">
   {% for bookmark in bookmarks %}
   <div class="Bookmark">
-    <form class="DeleteBookmarkButton" action="" method="POST">
-      {% csrf_token %}
-      <input class="DeleteBookmarkButtonSubmitButton" type="submit" value="x">
-    </form>
+    <a class="EditBookmarkButtonNavLinkButton" href="{% url 'bookmarks:detail' %}">
+      -
+    </a>
     <li class="ListItem">
       <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
     </li>

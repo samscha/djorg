@@ -105,6 +105,27 @@ body {
   margin: 5px 0;
 }
 
+.EditBookmarkButtonNavLinkButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 7px;
+  outline: none;
+  background: white;
+  border: solid 1px black;
+  text-decoration: none;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+}
+
+.EditBookmarkButtonNavLinkButton:hover {
+  background: #5fd85f;
+  color: white;
+  border: solid 1px #5fd85f;
+  cursor: pointer;
+}
+
 .DeleteBookmarkButtonSubmitButton {
   display: flex;
   flex-direction: column;

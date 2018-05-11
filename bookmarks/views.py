@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views import generic
+
 from .forms import BookmarkForm
 from .models import Bookmark, PersonalBookmark
-from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -28,12 +31,14 @@ def index(request):
     return render(request, 'bookmarks/index.html', context)
 
 
-def delete(request, bookmark=-1):
-    print('delete begin')
-    print('bookmark', bookmark)
+def detail(request):
+    bookmark = Bookmark.objects.all()[0]
+    # bookmark = get_object_or_404(Bookmark, id=bookmark_id)
+    return render(request, 'bookmarks/detail.html', {'bookmark': bookmark})
 
-    if bookmark == -1:
-        return index(request)
+
+def delete(request, bookmark_id):
+    print('delete begin')
 
     context = {}
 

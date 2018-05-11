@@ -5,6 +5,6 @@ from . import views
 app_name = 'bookmarks'
 
 urlpatterns = [
-    # path('', views.delete, name='delete'),
+    path('detail/', views.detail, name='detail'),
     path('', views.index, name='index'),
 ]
