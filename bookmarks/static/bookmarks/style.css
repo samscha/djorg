@@ -94,6 +94,8 @@ body {
 
 .Bookmarks {
   font-size: 20px;
+  width: 400px;
+  margin: 12px auto;
 }
 
 .Bookmark {
