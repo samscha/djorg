@@ -22,7 +22,8 @@ const StatusBar = props => {
         className="StatusBar__addNoteButton"
         onClick={addNewNoteButtonClickedHandler}
       >
-        &#65291;
+        {/* <p>&#65291;</p> */}
+        +
       </div>
 
       <div className="StatusBar__user">{props.user}</div>

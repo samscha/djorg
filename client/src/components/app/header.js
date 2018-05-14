@@ -12,7 +12,7 @@ class Header extends Component {
   render() {
     return (
       <NavLink to="/" className="Header" onClick={this.headerClickedHandler}>
-        &reg;Notes
+        djorgNotes
       </NavLink>
     );
   }
