@@ -9,7 +9,13 @@ from .models import Bookmark, PersonalBookmark
 
 def index(request):
     if request.method == 'POST':
-        if 'id' in request.POST:
+        if 'delete_all' in request.POST:
+            if request.POST['delete_all'] == 'delete_all_confirm':
+                bookmarks = Bookmark.objects.exclude(
+                    id__in=PersonalBookmark.objects.values_list('id'))
+                for b in bookmarks:
+                    b.delete()
+        elif 'id' in request.POST:
             target_id = request.POST['id']
             bookmark = Bookmark.objects.filter(pk=target_id)
             bookmark.delete()
@@ -33,6 +39,8 @@ def index(request):
 
     context['form'] = BookmarkForm()
 
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('bookmarks:index'))
     return render(request, 'bookmarks/index.html', context)
 
 

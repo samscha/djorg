@@ -2,6 +2,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'bookmarks/style.css' %}" />
 
 <div class="StatusBar">
+  <form class="DeleteAllBookmarksButtonDiv" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="delete_all" value="delete_all_confirm" />
+    <button class="DeleteAllBookmarksButton" type="submit">
+      x
+    </button>
+  </form>
   <div class="ToggleNewBookmarkButtonDiv">
     <button class="ToggleNewBookmarkButton" id="ToggleNewBookmarkButtonId" onclick="ToggleNewBookmarkForm()">
       +
@@ -20,7 +27,7 @@
     <form class="DeleteBookmarkForm" method="POST">
       {% csrf_token %}
       <input type="hidden" name="id" value="{{ bookmark.id }}" />
-      <button class="DeleteBookmarkButtonSubmitButton" name="delete" type="submit ">x</button>
+      <button class="DeleteBookmarkButtonSubmitButton" type="submit">x</button>
     </form>
     <li class="ListItem ">
       <a class="ListItemHref " href="{{ bookmark.url }} " target="_blank ">{{ bookmark.name }}</a>
