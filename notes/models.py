@@ -10,4 +10,5 @@ class Note(models.Model):
     content = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    api_enabled = models.BooleanField(default=True)
     # choices for categories - models.Char => choices

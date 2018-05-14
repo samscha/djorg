@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+print("allowed_hosts", ALLOWED_HOSTS)
 
 
 # Application definition
@@ -79,7 +80,7 @@ REST_FRAMEWORK = {
     # use django's standard `django.contrib.auth`` permissions,
     # or allow read-only access for unauthenticated users
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
 
