@@ -9,53 +9,18 @@ from .models import Bookmark, PersonalBookmark
 
 def index(request):
     if request.method == 'POST':
-        form = BookmarkForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            print('form not valid')
-
-    context = {}
-
-    context['bookmarks'] = Bookmark.objects.exclude(
-        id__in=PersonalBookmark.objects.values_list('id'))
-
-    if request.user.is_anonymous:
-        context['personal_bookmarks'] = PersonalBookmark.objects.none()
-    else:
-        context['personal_bookmarks'] = PersonalBookmark.objects.filter(
-            user=request.user)
-
-    context['form'] = BookmarkForm()
-
-    return render(request, 'bookmarks/index.html', context)
-
-
-def detail(request):
-    bookmark = Bookmark.objects.all()[0]
-    # bookmark = get_object_or_404(Bookmark, id=bookmark_id)
-    return render(request, 'bookmarks/detail.html', {'bookmark': bookmark})
-
-
-def delete(request, bookmark_id):
-    print('delete begin')
-
-    context = {}
-
-    bookmark = get_object_or_404(Bookmark, id=bookmark_id)
-
-    if (request.method == 'POST'):
-        form = BookmarkForm(request.POST, instance=bookmark)
-
-        if form.is_valid():
+        if 'id' in request.POST:
+            target_id = request.POST['id']
+            bookmark = Bookmark.objects.filter(pk=target_id)
             bookmark.delete()
-            return HttpResponseRedirect(reverse('bookmarks:index', args=(bookmark)))
-    else:
-        form = BookmarkForm(instance=bookmark)
+        else:
+            form = BookmarkForm(request.POST)
+            if form.is_valid():
+                form.save()
+            else:
+                print('form not valid')
 
     context = {}
-
-    # context['invalid_form'] = form
 
     context['bookmarks'] = Bookmark.objects.exclude(
         id__in=PersonalBookmark.objects.values_list('id'))
@@ -68,7 +33,51 @@ def delete(request, bookmark_id):
 
     context['form'] = BookmarkForm()
 
-    return HttpResponseRedirect('/bookmarks')
-
-    print('delete end')
     return render(request, 'bookmarks/index.html', context)
+
+
+# def detail(request):
+#     bookmark = Bookmark.objects.all()[0]
+#     # bookmark = get_object_or_404(Bookmark, id=bookmark_id)
+#     return render(request, 'bookmarks/detail.html', {'bookmark': bookmark})
+
+
+# def delete(request, bookmark_id):
+#     print('delete begin')
+
+#     context = {}
+
+#     bookmark = get_object_or_404(Bookmark, id=bookmark_id)
+
+#     if (request.method == 'POST'):
+#         form = BookmarkForm(request.POST, instance=bookmark)
+
+#         if form.is_valid():
+#             bookmark.delete()
+#             return HttpResponseRedirect(reverse('bookmarks:index', args=(bookmark)))
+#     else:
+#         form = BookmarkForm(instance=bookmark)
+
+#     context = {}
+
+#     # context['invalid_form'] = form
+
+#     context['bookmarks'] = Bookmark.objects.exclude(
+#         id__in=PersonalBookmark.objects.values_list('id'))
+
+#     if request.user.is_anonymous:
+#         context['personal_bookmarks'] = PersonalBookmark.objects.none()
+#     else:
+#         context['personal_bookmarks'] = PersonalBookmark.objects.filter(
+#             user=request.user)
+
+#     context['form'] = BookmarkForm()
+
+#     return HttpResponseRedirect('/bookmarks')
+
+#     print('delete end')
+#     return render(request, 'bookmarks/index.html', context)
+
+#     # <a class="EditBookmarkButtonNavLinkButton" href="{% url 'bookmarks:detail' %}">
+#     #   -
+#     # </a>

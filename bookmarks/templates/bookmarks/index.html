@@ -17,31 +17,33 @@
 <ul class="Bookmarks">
   {% for bookmark in bookmarks %}
   <div class="Bookmark">
-    <a class="EditBookmarkButtonNavLinkButton" href="{% url 'bookmarks:detail' %}">
-      -
-    </a>
-    <li class="ListItem">
-      <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
+    <form class="DeleteBookmarkForm" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ bookmark.id }}" />
+      <button class="DeleteBookmarkButtonSubmitButton" name="delete" type="submit ">x</button>
+    </form>
+    <li class="ListItem ">
+      <a class="ListItemHref " href="{{ bookmark.url }} " target="_blank ">{{ bookmark.name }}</a>
     </li>
   </div>
   {% endfor %}
 </ul>
 {% else %}
 
-<p class="NoBookmarks">No bookmarks</p>
+<p class="NoBookmarks ">No bookmarks</p>
 {% endif %}
 
-<h1 class="Title">Personal Bookmarks</h1>
+<h1 class="Title ">Personal Bookmarks</h1>
 
 {% if personal_bookmarks %}
-<ol class="Bookmarks">
+<ol class="Bookmarks ">
   {% for bookmark in personal_bookmarks %}
   <li>
-    <a class="ListItemHref" href="{{ bookmark.url }}" target="_blank">{{ bookmark.name }}</a>
+    <a class="ListItemHref " href="{{ bookmark.url }} " target="_blank ">{{ bookmark.name }}</a>
   </li>
   {% endfor %}
 </ol>
 
 {% else %}
-<p class="NoBookmarks">No personal bookmarks</p>
+<p class="NoBookmarks ">No personal bookmarks</p>
 {% endif %} {% endblock %}
