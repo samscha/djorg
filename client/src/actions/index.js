@@ -55,7 +55,8 @@ export const NOTE_ADD_SUCCESS = 'NOTE_ADD_SUCCESS';
 export const NOTE_ADD_ERROR = 'NOTE_ADD_ERROR';
 export const NOTE_ADD_FINISH = 'NOTE_ADDE_FINISH';
 
-const ROOT = 'https://reactnotesapp-fwcdga47i.herokuapp.com/api';
+// const ROOT = 'https://reactnotesapp-fwcdga47i.herokuapp.com/api';
+const ROOT = '127.0.0.1:8000/api';
 
 export const resetErrors = _ => {
   return dispatch => {
@@ -183,16 +184,42 @@ export const logout = history => {
   };
 };
 
+// export const getNotes = _ => {
+//   return dispatch => {
+//     dispatch({ type: NOTES_FETCH_START });
+
+//     axios
+//       .get(`${ROOT}/users/notes`, {
+//         headers: { authorization: localStorage.getItem(appK) },
+//       })
+//       .then(({ data }) => {
+//         dispatch({ type: NOTES_FETCH_SUCCESS, payload: data });
+//         dispatch({ type: NOTES_FETCH_FINISH });
+//       })
+//       .catch(err => {
+//         dispatch({ type: AUTH_NOTES_ERROR, payload: err.response.data.error });
+//         dispatch({ type: NOTES_FETCH_FINISH });
+//       });
+//   };
+// };
+
 export const getNotes = _ => {
   return dispatch => {
     dispatch({ type: NOTES_FETCH_START });
 
     axios
-      .get(`${ROOT}/users/notes`, {
-        headers: { authorization: localStorage.getItem(appK) },
-      })
+      .get(`/api/notes`)
       .then(({ data }) => {
-        dispatch({ type: NOTES_FETCH_SUCCESS, payload: data });
+        const notes = data.map(note => {
+          const new_note = {};
+          new_note._id = note.id;
+          new_note.title = note.title;
+          new_note.content = note.content;
+
+          return new_note;
+        });
+
+        dispatch({ type: NOTES_FETCH_SUCCESS, payload: notes });
         dispatch({ type: NOTES_FETCH_FINISH });
       })
       .catch(err => {
