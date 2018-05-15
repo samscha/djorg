@@ -35,11 +35,17 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # packages
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'corsheaders',
     'rest_framework',
     # apps
     'bookmarks',
@@ -48,6 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,7 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djorg.urls'
 
-TEMPLATES = [
+TEMPLATES = [  # TODO: turn into .env
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -70,10 +77,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+CORS_ALLOW_CREDENTIALS = config(
+    "CORS_ALLOW_CREDENTIALS", default=False, cast=bool)
+CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST').split(',')
+
+SITE_ID = config("SITE_ID", default=1, cast=int)
+
+LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL")
+
+AUTHENTICATION_BACKENDS = config("AUTHENTICATION_BACKENDS").split(',')
 
 REST_FRAMEWORK = {
     # use django's standard `django.contrib.auth`` permissions,

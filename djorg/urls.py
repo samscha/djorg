@@ -27,4 +27,5 @@ urlpatterns = [
     path('bookmarks/', include('bookmarks.urls')),
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name="djorg_base.html")),
+    path('accounts/', include('allauth.urls')),
 ]

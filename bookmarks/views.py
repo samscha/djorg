@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 from .forms import BookmarkForm
 from .models import Bookmark, PersonalBookmark
 
 
+@login_required
 def index(request):
     if request.method == 'POST':
         if 'delete_all' in request.POST:
