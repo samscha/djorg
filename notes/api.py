@@ -16,6 +16,9 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
         note = Note.objects.create(user=user, **validated_data)
         return note
 
+    def destroy(self, validated_data):
+        print(self)
+
 
 class NoteViewSet(viewsets.ModelViewSet):
     """Viewset to define the view behavior for Notes"""

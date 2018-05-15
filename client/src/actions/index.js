@@ -1,6 +1,9 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'; /* for django */
+axios.defaults.xsrfCookieName = 'XCSRF-Token'; /* for django */
+
 const appK = 'com.herokuapp.reactnotesapp-fwcdga47i';
 
 export const AUTH_USER_AUTHENTICATED = 'AUTH_USER_AUTHENTICATED';
@@ -233,29 +236,90 @@ export const editNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_EDIT_START });
 
-    axios
-      .put(`${ROOT}/notes/${note.id}`, {
-        title: note.title,
-        content: note.content,
-      })
+    axios({
+      method: 'PUT',
+      url: `http://127.0.0.1:8000/api/notes/1/`,
+      // data: {
+      //   id: note.id,
+      //   title: note.title,
+      //   content: note.content,
+      // },
+      auth: {
+        username: '#########################',
+        password: '#####################',
+      },
+      // headers: {
+      //   'X-CSRFToken': getCookie('csrfToken'),
+      //   'X-Requested-With': 'XMLHttpRequest',
+      //   'Content-Type': 'application/json',
+      // },
+    })
       .then(({ data }) => {
-        dispatch({ type: NOTE_EDIT_SUCCESS, payload: data });
+        const note = { ...data, _id: data.id };
+        delete note.id;
+
+        dispatch({ type: NOTE_EDIT_SUCCESS, payload: note });
         dispatch({ type: NOTE_EDIT_FINISH });
       })
       .catch(err => {
         dispatch({ type: NOTE_EDIT_ERROR, payload: err });
         dispatch({ type: NOTE_EDIT_FINISH });
       });
+
+    // axios
+    //   .put(`${ROOT}/notes/${note.id}`, {
+    //     title: note.title,
+    //     content: note.content,
+    //   })
+    //   .then(({ data }) => {
+    //     dispatch({ type: NOTE_EDIT_SUCCESS, payload: data });
+    //     dispatch({ type: NOTE_EDIT_FINISH });
+    //   })
+    //   .catch(err => {
+    //     dispatch({ type: NOTE_EDIT_ERROR, payload: err });
+    //     dispatch({ type: NOTE_EDIT_FINISH });
+    //   });
   };
 };
 
-export const deleteNote = id => {
+// const getCookie = name => {
+//   if (!document.cookie) {
+//     return null;
+//   }
+//   const token = document.cookie
+//     .split(';')
+//     .map(c => c.trim())
+//     .filter(c => c.startsWith(name + '='));
+
+//   if (token.length === 0) {
+//     return null;
+//   }
+//   return decodeURIComponent(token[0].split('=')[1]);
+// };
+
+// export const deleteNote = id => {
+export const deleteNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_DELETE_START });
 
-    axios
-      .delete(`${ROOT}/notes/${id}`)
+    axios({
+      method: 'DELETE',
+      url: `http://127.0.0.1:8000/api/notes`,
+      data: {
+        id: note.id,
+      },
+      auth: {
+        username: '#########################',
+        password: '#####################',
+      },
+      // headers: {
+      //   'X-CSRFToken': getCookie('csrfToken'),
+      //   'X-Requested-With': 'XMLHttpRequest',
+      //   'Content-Type': 'application/json',
+      // },
+    })
       .then(({ data }) => {
+        console.log('data', data);
         dispatch({ type: NOTE_DELETE_SUCCESS, payload: data });
         dispatch({ type: NOTE_DELETE_FINISH });
       })
@@ -263,6 +327,17 @@ export const deleteNote = id => {
         dispatch({ type: NOTE_DELETE_ERROR, payload: err });
         dispatch({ type: NOTE_DELETE_FINISH });
       });
+
+    // axios
+    //   .delete(`${ROOT}/notes/${id}`)
+    //   .then(({ data }) => {
+    //     dispatch({ type: NOTE_DELETE_SUCCESS, payload: data });
+    //     dispatch({ type: NOTE_DELETE_FINISH });
+    //   })
+    //   .catch(err => {
+    //     dispatch({ type: NOTE_DELETE_ERROR, payload: err });
+    //     dispatch({ type: NOTE_DELETE_FINISH });
+    //   });
   };
 };
 
@@ -270,17 +345,47 @@ export const addNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_ADD_START });
 
-    axios
-      .post(`${ROOT}/notes`, note, {
-        headers: { authorization: localStorage.getItem(appK) },
-      })
+    axios({
+      method: 'post',
+      url: `http://127.0.0.1:8000/api/notes/`,
+      data: {
+        id: note.id,
+        title: note.title,
+        content: note.content,
+      },
+      auth: {
+        username: '#########################',
+        password: '#####################',
+      },
+      // headers: {
+      //   'X-CSRFToken': getCookie('csrfToken'),
+      //   'X-Requested-With': 'XMLHttpRequest',
+      //   'Content-Type': 'application/json',
+      // },
+    })
       .then(({ data }) => {
-        dispatch({ type: NOTE_ADD_SUCCESS, payload: data });
+        const note = { ...data, _id: data.id };
+        delete note.id;
+
+        dispatch({ type: NOTE_ADD_SUCCESS, payload: note });
         dispatch({ type: NOTE_ADD_FINISH });
       })
       .catch(err => {
         dispatch({ type: NOTE_ADD_ERROR, payload: err });
         dispatch({ type: NOTE_ADD_FINISH });
       });
+
+    // axios
+    //   .post(`${ROOT}/notes`, note, {
+    //     headers: { authorization: localStorage.getItem(appK) },
+    //   })
+    //   .then(({ data }) => {
+    //     dispatch({ type: NOTE_ADD_SUCCESS, payload: data });
+    //     dispatch({ type: NOTE_ADD_FINISH });
+    //   })
+    //   .catch(err => {
+    //     dispatch({ type: NOTE_ADD_ERROR, payload: err });
+    //     dispatch({ type: NOTE_ADD_FINISH });
+    //   });
   };
 };

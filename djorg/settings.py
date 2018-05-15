@@ -29,6 +29,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
+CSRF_COOKIE_NAME = config("CSRF_COOKIE_NAME")
 
 # Application definition
 
