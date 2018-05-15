@@ -4,6 +4,10 @@ body {
   margin: 0 auto;
 }
 
+.NavLinksMenu {
+  margin-left: 8px;
+}
+
 .StatusBar {
   display: flex;
   flex-direction: row;
