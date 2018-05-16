@@ -14,7 +14,13 @@ export default ComposedComponent => {
       }
 
       if (!this.props.user) {
-        this.props.authenticateUser();
+        const username = localStorage.getItem(appK + ',user');
+
+        if (username) {
+          this.props.authenticateUser(username);
+        } else {
+          this.props.history.push('/login');
+        }
       }
     }
 

@@ -48,7 +48,6 @@ class Notes extends Component {
             <div className="NoteContainer" key={note._id}>
               <NoteStatusBar
                 id={note._id}
-                note={note}
                 filterNotes={this.filterNotes}
                 restoreNotes={this.restoreNotes}
               />

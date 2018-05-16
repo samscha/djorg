@@ -32,8 +32,8 @@ ReactDOM.render(
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route exact path="/" component={App} />
-          {/* <Route exact path="/" component={Gatekeeper(App)} /> */}
+          {/* <Route exact path="/" component={App} /> */}
+          <Route exact path="/" component={Gatekeeper(App)} />
         </Switch>
       </div>
     </Router>

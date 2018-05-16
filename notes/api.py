@@ -16,8 +16,26 @@ class NoteSerializer(serializers.HyperlinkedModelSerializer):
         note = Note.objects.create(user=user, **validated_data)
         return note
 
-    def destroy(self, validated_data):
-        print(self)
+    def put(self, request, pk, format=None):
+        snippet = self.get_object(pk)
+        serializer = SnippetSerializer(snippet, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+    # def delete(self, request, pk, format=None):
+    #     note = self.get_object(pk)
+    #     note.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class NoteViewSet(viewsets.ModelViewSet):

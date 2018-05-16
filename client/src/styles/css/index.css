@@ -272,13 +272,6 @@ body p {
 }
 .StatusBar .StatusBar__addNoteButton:hover {
   cursor: pointer;
-  background: #c5c5c5;
-  border: 1px solid #c5c5c5;
-}
-.StatusBar .StatusBar__addNoteButton p {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .StatusBar .StatusBar__user {
   font-size: 1.35rem;

@@ -69,22 +69,26 @@ export const resetErrors = _ => {
   };
 };
 
-export const authenticateUser = _ => {
+export const authenticateUser = username => {
   return dispatch => {
     dispatch({ type: AUTH_LOGIN_START });
 
-    axios
-      .get(`${ROOT}/users/validate`, {
-        headers: { authorization: localStorage.getItem(appK) },
-      })
-      .then(({ data }) => {
-        dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.username });
-        dispatch({ type: AUTH_LOGIN_FINISH });
-      })
-      .catch(err => {
-        dispatch({ type: AUTH_LOGIN_ERROR, payload: err.response.data.error });
-        dispatch({ type: AUTH_LOGIN_FINISH });
-      });
+    /* TODO: check token on back end */
+    dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
+    dispatch({ type: AUTH_LOGIN_FINISH });
+
+    // axios
+    //   .get(`${ROOT}/users/validate`, {
+    //     headers: { authorization: localStorage.getItem(appK) },
+    //   })
+    //   .then(({ data }) => {
+    //     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: data.username });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+    //   })
+    //   .catch(err => {
+    //     dispatch({ type: AUTH_LOGIN_ERROR, payload: err.response.data.error });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+    //   });
   };
 };
 
@@ -202,9 +206,9 @@ export const login = (username, password, history) => {
       .post('http://127.0.0.1:8000/auth', { username, password })
       .then(function(response) {
         // store.dispatch(setToken(response.data.token))
-        console.log(response.data);
-        console.log(response.data.token);
-        // localStorage.setItem(appK, response.data.token);
+        localStorage.setItem(appK, response.data.token);
+        localStorage.setItem(appK + ',user', username);
+
         dispatch({ type: AUTH_ERROR_RESET });
 
         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
@@ -213,10 +217,9 @@ export const login = (username, password, history) => {
         history.push('/');
       })
       .catch(function(error) {
-        console.log(error);
         dispatch({
           type: AUTH_LOGIN_ERROR,
-          payload: error.response.data.message,
+          payload: error.response.data.non_field_errors[0],
         });
         dispatch({ type: AUTH_LOGIN_FINISH });
         // raise different exception if due to invalid credentials
@@ -290,6 +293,8 @@ export const logout = history => {
     dispatch({ type: AUTH_LOGOUT_START });
 
     localStorage.removeItem(appK);
+    localStorage.removeItem(appK + ',user');
+
     dispatch({ type: AUTH_LOGOUT_SUCCESS });
 
     dispatch({ type: AUTH_LOGOUT_FINISH });
@@ -349,21 +354,20 @@ export const editNote = note => {
 
     axios({
       method: 'PUT',
-      url: `http://127.0.0.1:8000/api/notes/1/`,
-      // data: {
-      //   id: note.id,
-      //   title: note.title,
-      //   content: note.content,
-      // },
+      url: `http://127.0.0.1:8000/api/notes/${note.id}/`,
+      data: {
+        title: note.title,
+        content: note.content,
+      },
       auth: {
-        username: '#########################',
-        password: '#####################',
+        username: '###',
+        password: '###',
       },
-      headers: {
-        // 'X-CSRFToken': getCookie('XCSRF-Token'),
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/json',
-      },
+      // headers: {
+      //   // 'X-CSRFToken': getCookie('XCSRF-Token'),
+      //   'X-Requested-With': 'XMLHttpRequest',
+      //   'Content-Type': 'application/json',
+      // },
     })
       .then(({ data }) => {
         const note = { ...data, _id: data.id };
@@ -409,28 +413,35 @@ export const editNote = note => {
 // };
 
 // export const deleteNote = id => {
-export const deleteNote = note => {
+export const deleteNote = id => {
   return dispatch => {
     dispatch({ type: NOTE_DELETE_START });
-
-    axios({
-      method: 'DELETE',
-      url: `http://127.0.0.1:8000/api/notes`,
-      data: {
-        id: note.id,
-      },
-      auth: {
-        username: '#########################',
-        password: '#####################',
-      },
-      // headers: {
-      //   'X-CSRFToken': getCookie('csrfToken'),
-      //   'X-Requested-With': 'XMLHttpRequest',
-      //   'Content-Type': 'application/json',
-      // },
-    })
+    // console.log('id', id);
+    // axios({
+    //   method: 'DELETE',
+    //   url: `http://127.0.0.1:8000/api/notes`,
+    //   data: {
+    //     id: note.id,
+    //   },
+    //   auth: {
+    //     username: '#########################',
+    //     password: '#####################',
+    //   },
+    //   // headers: {
+    //   //   'X-CSRFToken': getCookie('csrfToken'),
+    //   //   'X-Requested-With': 'XMLHttpRequest',
+    //   //   'Content-Type': 'application/json',
+    //   // },
+    // })
+    axios
+      .delete(`http://127.0.0.1:8000/api/notes/${id}/`, {
+        auth: {
+          username: '###',
+          password: '###',
+        },
+      })
       .then(({ data }) => {
-        dispatch({ type: NOTE_DELETE_SUCCESS, payload: data });
+        dispatch({ type: NOTE_DELETE_SUCCESS, payload: { _id: id } });
         dispatch({ type: NOTE_DELETE_FINISH });
       })
       .catch(err => {
@@ -464,8 +475,8 @@ export const addNote = note => {
         content: note.content,
       },
       auth: {
-        username: 'admin',
-        password: 'kokokoko',
+        username: '###',
+        password: '###',
       },
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFToken',

@@ -14,8 +14,8 @@ class NoteStatusBar extends Component {
   }
 
   deleteButtonClickedHandler = _ => {
-    // this.props.deleteNote(this.state.id);
-    this.props.deleteNote(this.props.note);
+    this.props.deleteNote(this.state.id);
+    // this.props.deleteNote(this.props.note.id);
   };
 
   viewButtonClickedHandler = _ => {
