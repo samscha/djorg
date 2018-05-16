@@ -113,63 +113,76 @@ export const register = (username, password, confirmPassword, history) => {
       return;
     }
 
-    axios
-      .post(`${ROOT}/users`, { username, password })
-      .then(({ data }) => {
-        dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: data });
+    /* debug */
+    const err = {
+      response: {
+        data: { message: 'REGISTER USER NOT IMPLEMENTED BACK END YET' },
+      },
+    };
 
-        dispatch({ type: AUTH_LOGIN_START });
+    dispatch({
+      type: AUTH_SIGNUP_ERROR,
+      payload: err.response.data.message,
+    });
+    dispatch({ type: AUTH_SIGNUP_FINISH });
 
-        axios
-          .post(`${ROOT}/users/login`, { username, password })
-          .then(({ data }) => {
-            localStorage.setItem(appK, data.token);
+    // axios
+    //   .post(`${ROOT}/users`, { username, password })
+    //   .then(({ data }) => {
+    //     dispatch({ type: AUTH_SIGNUP_SUCCESS, payload: data });
 
-            dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
+    //     dispatch({ type: AUTH_LOGIN_START });
 
-            dispatch({ type: AUTH_LOGIN_FINISH });
+    //     axios
+    //       .post(`${ROOT}/users/login`, { username, password })
+    //       .then(({ data }) => {
+    //         localStorage.setItem(appK, data.token);
 
-            dispatch({ type: AUTH_SIGNUP_FINISH });
+    //         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
 
-            history.push('/');
-          })
-          .catch(err => {
-            dispatch({
-              type: AUTH_LOGIN_ERROR,
-              payload: err.response.data.message,
-            });
-            dispatch({ type: AUTH_LOGIN_FINISH });
+    //         dispatch({ type: AUTH_LOGIN_FINISH });
 
-            dispatch({ type: AUTH_SIGNUP_ERROR });
-            dispatch({ type: AUTH_SIGNUP_FINISH });
-          });
-      })
-      .catch(err => {
-        dispatch({
-          type: AUTH_SIGNUP_ERROR,
-          payload: err.response.data.message,
-        });
-        dispatch({ type: AUTH_SIGNUP_FINISH });
-      });
+    //         dispatch({ type: AUTH_SIGNUP_FINISH });
+
+    //         history.push('/');
+    //       })
+    //       .catch(err => {
+    //         dispatch({
+    //           type: AUTH_LOGIN_ERROR,
+    //           payload: err.response.data.message,
+    //         });
+    //         dispatch({ type: AUTH_LOGIN_FINISH });
+
+    //         dispatch({ type: AUTH_SIGNUP_ERROR });
+    //         dispatch({ type: AUTH_SIGNUP_FINISH });
+    //       });
+    //   })
+    //   .catch(err => {
+    //     dispatch({
+    //       type: AUTH_SIGNUP_ERROR,
+    //       payload: err.response.data.message,
+    //     });
+    //     dispatch({ type: AUTH_SIGNUP_FINISH });
+    //   });
   };
 };
 
-function getCookie(name) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === name + '=') {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  console.log('cookie value', cookieValue);
-  return cookieValue;
-}
+// function getCookie(name) {
+//   var cookieValue = null;
+//   if (document.cookie && document.cookie !== '') {
+//     var cookies = document.cookie.split(';');
+//     for (var i = 0; i < cookies.length; i++) {
+//       var cookie = cookies[i].trim();
+//       // Does this cookie string begin with the name we want?
+//       if (cookie.substring(0, name.length + 1) === name + '=') {
+//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//         break;
+//       }
+//     }
+//   }
+//   console.log('cookie value', cookieValue);
+//   return cookieValue;
+// }
 
 // function getCookie(name) {
 //   if (!document.cookie) {
