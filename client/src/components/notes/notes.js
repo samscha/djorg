@@ -43,19 +43,23 @@ class Notes extends Component {
   render() {
     return (
       <div className="Notes">
-        {this.state.notes.map(note => {
-          return (
-            <div className="NoteContainer" key={note._id}>
-              <NoteStatusBar
-                id={note._id}
-                filterNotes={this.filterNotes}
-                restoreNotes={this.restoreNotes}
-              />
+        {this.state.notes.length > 0 ? (
+          this.state.notes.map(note => {
+            return (
+              <div className="NoteContainer" key={note._id}>
+                <NoteStatusBar
+                  id={note._id}
+                  filterNotes={this.filterNotes}
+                  restoreNotes={this.restoreNotes}
+                />
 
-              <Note note={note} />
-            </div>
-          );
-        })}
+                <Note note={note} />
+              </div>
+            );
+          })
+        ) : (
+          <p className="NotesNoNotesDescription">No notes</p>
+        )}
       </div>
     );
   }
