@@ -359,9 +359,8 @@ export const editNote = note => {
         title: note.title,
         content: note.content,
       },
-      auth: {
-        username: '###',
-        password: '###',
+      headers: {
+        Authorization: `Token ${localStorage.getItem(appK)}`,
       },
       // headers: {
       //   // 'X-CSRFToken': getCookie('XCSRF-Token'),
@@ -411,8 +410,8 @@ export const editNote = note => {
 //   }
 //   return decodeURIComponent(token[0].split('=')[1]);
 // };
-
 // export const deleteNote = id => {
+
 export const deleteNote = id => {
   return dispatch => {
     dispatch({ type: NOTE_DELETE_START });
@@ -433,11 +432,13 @@ export const deleteNote = id => {
     //   //   'Content-Type': 'application/json',
     //   // },
     // })
+
+    // console.log('token', localStorage.getItem(appK));
+
     axios
       .delete(`http://127.0.0.1:8000/api/notes/${id}/`, {
-        auth: {
-          username: '###',
-          password: '###',
+        headers: {
+          Authorization: `Token ${localStorage.getItem(appK)}`,
         },
       })
       .then(({ data }) => {
@@ -474,17 +475,16 @@ export const addNote = note => {
         title: note.title,
         content: note.content,
       },
-      auth: {
-        username: '###',
-        password: '###',
-      },
-      xsrfCookieName: 'csrftoken',
-      xsrfHeaderName: 'X-CSRFToken',
       headers: {
-        'X-CSRFToken': getCookie('X-CSRFToken'),
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/json',
+        Authorization: `Token ${localStorage.getItem(appK)}`,
       },
+      // xsrfCookieName: 'csrftoken',
+      // xsrfHeaderName: 'X-CSRFToken',
+      // headers: {
+      //   'X-CSRFToken': getCookie('X-CSRFToken'),
+      //   'X-Requested-With': 'XMLHttpRequest',
+      //   'Content-Type': 'application/json',
+      // },
     })
       .then(({ data }) => {
         const note = { ...data, _id: data.id };

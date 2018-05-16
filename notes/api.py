@@ -48,6 +48,8 @@ class NoteViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+        # LOCAL_DEBUG = False
+        # if LOCAL_DEBUG == True:
         if settings.DEBUG == True:
             return Note.objects.all()
         elif user.is_anonymous:
