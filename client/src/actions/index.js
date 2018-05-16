@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { login as login_auth } from '../util/auth';
+
 axios.defaults.withCredentials = true;
 
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'; /* for django */
-axios.defaults.xsrfCookieName = 'XCSRF-Token'; /* for django */
+// axios.defaults.xsrfHeaderName = 'X-CSRFToken'; /* for django */
+// axios.defaults.xsrfCookieName = 'XCSRF-Token'; /* for django */
 
 const appK = 'com.herokuapp.reactnotesapp-fwcdga47i';
 
@@ -148,29 +150,138 @@ export const register = (username, password, confirmPassword, history) => {
   };
 };
 
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  console.log('cookie value', cookieValue);
+  return cookieValue;
+}
+
+// function getCookie(name) {
+//   if (!document.cookie) {
+//     return null;
+//   }
+
+//   console.log('doc cooki', document.cookie);
+
+//   const xsrfCookies = document.cookie
+//     .split(';')
+//     .map(c => c.trim())
+//     .filter(c => c.startsWith(name + '='));
+
+//   if (xsrfCookies.length === 0) {
+//     return null;
+//   }
+
+//   return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+// }
+
 export const login = (username, password, history) => {
   return dispatch => {
     dispatch({ type: AUTH_LOGIN_START });
 
+    // axios({
+    //   method: 'post',
+    //   url: `http://127.0.0.1:8000/auth`,
+    //   body: {
+    //     username,
+    //     password,
+    //   },
+    // })
     axios
-      .post(`${ROOT}/users/login`, { username, password })
-      .then(({ data }) => {
+      .post('http://127.0.0.1:8000/auth', { username, password })
+      .then(function(response) {
+        // store.dispatch(setToken(response.data.token))
+        console.log(response.data);
+        console.log(response.data.token);
+        // localStorage.setItem(appK, response.data.token);
         dispatch({ type: AUTH_ERROR_RESET });
-
-        localStorage.setItem(appK, data.token);
 
         dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
         dispatch({ type: AUTH_LOGIN_FINISH });
 
         history.push('/');
       })
-      .catch(err => {
+      .catch(function(error) {
+        console.log(error);
         dispatch({
           type: AUTH_LOGIN_ERROR,
-          payload: err.response.data.message,
+          payload: error.response.data.message,
         });
         dispatch({ type: AUTH_LOGIN_FINISH });
+        // raise different exception if due to invalid credentials
+        // if (_.get(error, 'response.status') === 400) {
+        //   throw new InvalidCredentialsException(error);
+        // }
+        // throw error;
       });
+
+    // console.log(getCookie('csrftoken'));
+
+    // login_auth(username, password);
+
+    // console.log('doc', document);
+
+    // axios({
+    //   method: 'post',
+    //   url: `http://127.0.0.1:8000/auth`,
+    //   body: {
+    //     username,
+    //     password,
+    //   },
+    //   // headers: {
+    //   //   'X-CSRFToken': getCookie('csrftoken'),
+    //   //   'X-Requested-With': 'XMLHttpRequest',
+    //   //   'Content-Type': 'application/json',
+    //   // },
+    // })
+    //   .then(({ data }) => {
+    //     dispatch({ type: AUTH_ERROR_RESET });
+
+    //     console.log('data', data);
+
+    //     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+
+    //     history.push('/');
+    //   })
+    //   .catch(err => {
+    //     dispatch({
+    //       type: AUTH_LOGIN_ERROR,
+    //       payload: err.response.data.message,
+    //     });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+    //   });
+
+    // axios
+    //   .post(`${ROOT}/users/login`, { username, password })
+    //   .then(({ data }) => {
+    //     dispatch({ type: AUTH_ERROR_RESET });
+
+    //     localStorage.setItem(appK, data.token);
+
+    //     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+
+    //     history.push('/');
+    //   })
+    //   .catch(err => {
+    //     dispatch({
+    //       type: AUTH_LOGIN_ERROR,
+    //       payload: err.response.data.message,
+    //     });
+    //     dispatch({ type: AUTH_LOGIN_FINISH });
+    //   });
   };
 };
 
@@ -248,11 +359,11 @@ export const editNote = note => {
         username: '#########################',
         password: '#####################',
       },
-      // headers: {
-      //   'X-CSRFToken': getCookie('csrfToken'),
-      //   'X-Requested-With': 'XMLHttpRequest',
-      //   'Content-Type': 'application/json',
-      // },
+      headers: {
+        // 'X-CSRFToken': getCookie('XCSRF-Token'),
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+      },
     })
       .then(({ data }) => {
         const note = { ...data, _id: data.id };
@@ -319,7 +430,6 @@ export const deleteNote = note => {
       // },
     })
       .then(({ data }) => {
-        console.log('data', data);
         dispatch({ type: NOTE_DELETE_SUCCESS, payload: data });
         dispatch({ type: NOTE_DELETE_FINISH });
       })
@@ -344,24 +454,26 @@ export const deleteNote = note => {
 export const addNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_ADD_START });
+    // console.log(Cookie);
 
     axios({
       method: 'post',
       url: `http://127.0.0.1:8000/api/notes/`,
       data: {
-        id: note.id,
         title: note.title,
         content: note.content,
       },
       auth: {
-        username: '#########################',
-        password: '#####################',
+        username: 'admin',
+        password: 'kokokoko',
       },
-      // headers: {
-      //   'X-CSRFToken': getCookie('csrfToken'),
-      //   'X-Requested-With': 'XMLHttpRequest',
-      //   'Content-Type': 'application/json',
-      // },
+      xsrfCookieName: 'csrftoken',
+      xsrfHeaderName: 'X-CSRFToken',
+      headers: {
+        'X-CSRFToken': getCookie('X-CSRFToken'),
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+      },
     })
       .then(({ data }) => {
         const note = { ...data, _id: data.id };

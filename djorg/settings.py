@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # packages
+    'corsheaders',
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    'corsheaders',
     'rest_framework',
     # apps
     'bookmarks',
@@ -68,7 +68,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'djorg.urls'
 
-TEMPLATES = [  # TODO: turn into .env
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -87,19 +87,27 @@ TEMPLATES = [  # TODO: turn into .env
 
 CORS_ALLOW_CREDENTIALS = config(
     "CORS_ALLOW_CREDENTIALS", default=False, cast=bool)
+
 CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST').split(',')
 
 SITE_ID = config("SITE_ID", default=1, cast=int)
 
 LOGIN_REDIRECT_URL = config("LOGIN_REDIRECT_URL")
 
+# REST_SESSION_LOGIN = False
+
 AUTHENTICATION_BACKENDS = config("AUTHENTICATION_BACKENDS").split(',')
 
 REST_FRAMEWORK = {
     # use django's standard `django.contrib.auth`` permissions,
     # or allow read-only access for unauthenticated users
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+
     ]
 }
 

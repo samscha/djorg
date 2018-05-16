@@ -3,13 +3,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // redux
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+// import { createStore, applyMiddleware } from 'redux';
+// import thunk from 'redux-thunk';
+// import logger from 'redux-logger';
 // react-router
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import rootReducer from './reducers';
+// import rootReducer from './reducers';
 
 import Signup from './components/passport/signup';
 import Login from './components/passport/login';
@@ -20,7 +20,9 @@ import App from './app';
 
 import './styles/css/index.css';
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+import store from './store';
+
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 // const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
