@@ -24,10 +24,10 @@ router = routers.DefaultRouter()
 router.register(r'notes', NoteViewSet)
 
 urlpatterns = [
-    url(r'^', include_conf('notes.urls')),
     path('api/', include(router.urls)),
     path('bookmarks/', include('bookmarks.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    url(r'^', include_conf('notes.urls')),
     path('', TemplateView.as_view(template_name="djorg_base.html")),
 ]
