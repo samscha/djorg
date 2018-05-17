@@ -12,7 +12,7 @@ python-decouple = "*"
 whitenoise = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
-django-allauth = "==0.22"
+django-allauth = "*"
 
 [dev-packages]
 
