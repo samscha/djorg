@@ -11,6 +11,7 @@ dj-database-url = "*"
 python-decouple = "*"
 whitenoise = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
