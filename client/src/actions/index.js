@@ -61,7 +61,7 @@ export const NOTE_ADD_ERROR = 'NOTE_ADD_ERROR';
 export const NOTE_ADD_FINISH = 'NOTE_ADDE_FINISH';
 
 // const ROOT = 'https://reactnotesapp-fwcdga47i.herokuapp.com/api';
-const ROOT = '127.0.0.1:8000/api';
+const ROOT = 'http://127.0.0.1:8000';
 
 export const resetErrors = _ => {
   return dispatch => {
@@ -167,58 +167,13 @@ export const register = (username, password, confirmPassword, history) => {
   };
 };
 
-// function getCookie(name) {
-//   var cookieValue = null;
-//   if (document.cookie && document.cookie !== '') {
-//     var cookies = document.cookie.split(';');
-//     for (var i = 0; i < cookies.length; i++) {
-//       var cookie = cookies[i].trim();
-//       // Does this cookie string begin with the name we want?
-//       if (cookie.substring(0, name.length + 1) === name + '=') {
-//         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//         break;
-//       }
-//     }
-//   }
-//   console.log('cookie value', cookieValue);
-//   return cookieValue;
-// }
-
-// function getCookie(name) {
-//   if (!document.cookie) {
-//     return null;
-//   }
-
-//   console.log('doc cooki', document.cookie);
-
-//   const xsrfCookies = document.cookie
-//     .split(';')
-//     .map(c => c.trim())
-//     .filter(c => c.startsWith(name + '='));
-
-//   if (xsrfCookies.length === 0) {
-//     return null;
-//   }
-
-//   return decodeURIComponent(xsrfCookies[0].split('=')[1]);
-// }
-
 export const login = (username, password, history) => {
   return dispatch => {
     dispatch({ type: AUTH_LOGIN_START });
 
-    // axios({
-    //   method: 'post',
-    //   url: `http://127.0.0.1:8000/auth`,
-    //   body: {
-    //     username,
-    //     password,
-    //   },
-    // })
     axios
-      .post('http://127.0.0.1:8000/auth', { username, password })
-      .then(function(response) {
-        // store.dispatch(setToken(response.data.token))
+      .post(`/auth`, { username, password })
+      .then(response => {
         localStorage.setItem(appK, response.data.token);
         localStorage.setItem(appK + ',user', username);
 
@@ -229,75 +184,13 @@ export const login = (username, password, history) => {
 
         history.push('/');
       })
-      .catch(function(error) {
+      .catch(error => {
         dispatch({
           type: AUTH_LOGIN_ERROR,
           payload: error.response.data.non_field_errors[0],
         });
         dispatch({ type: AUTH_LOGIN_FINISH });
-        // raise different exception if due to invalid credentials
-        // if (_.get(error, 'response.status') === 400) {
-        //   throw new InvalidCredentialsException(error);
-        // }
-        // throw error;
       });
-
-    // console.log(getCookie('csrftoken'));
-
-    // login_auth(username, password);
-
-    // console.log('doc', document);
-
-    // axios({
-    //   method: 'post',
-    //   url: `http://127.0.0.1:8000/auth`,
-    //   body: {
-    //     username,
-    //     password,
-    //   },
-    //   // headers: {
-    //   //   'X-CSRFToken': getCookie('csrftoken'),
-    //   //   'X-Requested-With': 'XMLHttpRequest',
-    //   //   'Content-Type': 'application/json',
-    //   // },
-    // })
-    //   .then(({ data }) => {
-    //     dispatch({ type: AUTH_ERROR_RESET });
-
-    //     console.log('data', data);
-
-    //     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
-    //     dispatch({ type: AUTH_LOGIN_FINISH });
-
-    //     history.push('/');
-    //   })
-    //   .catch(err => {
-    //     dispatch({
-    //       type: AUTH_LOGIN_ERROR,
-    //       payload: err.response.data.message,
-    //     });
-    //     dispatch({ type: AUTH_LOGIN_FINISH });
-    //   });
-
-    // axios
-    //   .post(`${ROOT}/users/login`, { username, password })
-    //   .then(({ data }) => {
-    //     dispatch({ type: AUTH_ERROR_RESET });
-
-    //     localStorage.setItem(appK, data.token);
-
-    //     dispatch({ type: AUTH_LOGIN_SUCCESS, payload: username });
-    //     dispatch({ type: AUTH_LOGIN_FINISH });
-
-    //     history.push('/');
-    //   })
-    //   .catch(err => {
-    //     dispatch({
-    //       type: AUTH_LOGIN_ERROR,
-    //       payload: err.response.data.message,
-    //     });
-    //     dispatch({ type: AUTH_LOGIN_FINISH });
-    //   });
   };
 };
 
@@ -315,25 +208,6 @@ export const logout = history => {
     history.push('/login');
   };
 };
-
-// export const getNotes = _ => {
-//   return dispatch => {
-//     dispatch({ type: NOTES_FETCH_START });
-
-//     axios
-//       .get(`${ROOT}/users/notes`, {
-//         headers: { authorization: localStorage.getItem(appK) },
-//       })
-//       .then(({ data }) => {
-//         dispatch({ type: NOTES_FETCH_SUCCESS, payload: data });
-//         dispatch({ type: NOTES_FETCH_FINISH });
-//       })
-//       .catch(err => {
-//         dispatch({ type: AUTH_NOTES_ERROR, payload: err.response.data.error });
-//         dispatch({ type: NOTES_FETCH_FINISH });
-//       });
-//   };
-// };
 
 export const getNotes = _ => {
   return dispatch => {
@@ -365,22 +239,19 @@ export const editNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_EDIT_START });
 
-    axios({
-      method: 'PUT',
-      url: `http://127.0.0.1:8000/api/notes/${note.id}/`,
-      data: {
-        title: note.title,
-        content: note.content,
-      },
-      headers: {
-        Authorization: `Token ${localStorage.getItem(appK)}`,
-      },
-      // headers: {
-      //   // 'X-CSRFToken': getCookie('XCSRF-Token'),
-      //   'X-Requested-With': 'XMLHttpRequest',
-      //   'Content-Type': 'application/json',
-      // },
-    })
+    axios
+      .put(
+        `/api/notes/${note.id}/`,
+        {
+          title: note.title,
+          content: note.content,
+        },
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem(appK)}`,
+          },
+        },
+      )
       .then(({ data }) => {
         const note = { ...data, _id: data.id };
         delete note.id;
@@ -392,69 +263,20 @@ export const editNote = note => {
         dispatch({ type: NOTE_EDIT_ERROR, payload: err });
         dispatch({ type: NOTE_EDIT_FINISH });
       });
-
-    // axios
-    //   .put(`${ROOT}/notes/${note.id}`, {
-    //     title: note.title,
-    //     content: note.content,
-    //   })
-    //   .then(({ data }) => {
-    //     dispatch({ type: NOTE_EDIT_SUCCESS, payload: data });
-    //     dispatch({ type: NOTE_EDIT_FINISH });
-    //   })
-    //   .catch(err => {
-    //     dispatch({ type: NOTE_EDIT_ERROR, payload: err });
-    //     dispatch({ type: NOTE_EDIT_FINISH });
-    //   });
   };
 };
-
-// const getCookie = name => {
-//   if (!document.cookie) {
-//     return null;
-//   }
-//   const token = document.cookie
-//     .split(';')
-//     .map(c => c.trim())
-//     .filter(c => c.startsWith(name + '='));
-
-//   if (token.length === 0) {
-//     return null;
-//   }
-//   return decodeURIComponent(token[0].split('=')[1]);
-// };
-// export const deleteNote = id => {
 
 export const deleteNote = id => {
   return dispatch => {
     dispatch({ type: NOTE_DELETE_START });
-    // console.log('id', id);
-    // axios({
-    //   method: 'DELETE',
-    //   url: `http://127.0.0.1:8000/api/notes`,
-    //   data: {
-    //     id: note.id,
-    //   },
-    //   auth: {
-    //     username: '#########################',
-    //     password: '#####################',
-    //   },
-    //   // headers: {
-    //   //   'X-CSRFToken': getCookie('csrfToken'),
-    //   //   'X-Requested-With': 'XMLHttpRequest',
-    //   //   'Content-Type': 'application/json',
-    //   // },
-    // })
-
-    // console.log('token', localStorage.getItem(appK));
 
     axios
-      .delete(`http://127.0.0.1:8000/api/notes/${id}/`, {
+      .delete(`/api/notes/${id}/`, {
         headers: {
           Authorization: `Token ${localStorage.getItem(appK)}`,
         },
       })
-      .then(({ data }) => {
+      .then(_ => {
         dispatch({ type: NOTE_DELETE_SUCCESS, payload: { _id: id } });
         dispatch({ type: NOTE_DELETE_FINISH });
       })
@@ -462,43 +284,19 @@ export const deleteNote = id => {
         dispatch({ type: NOTE_DELETE_ERROR, payload: err });
         dispatch({ type: NOTE_DELETE_FINISH });
       });
-
-    // axios
-    //   .delete(`${ROOT}/notes/${id}`)
-    //   .then(({ data }) => {
-    //     dispatch({ type: NOTE_DELETE_SUCCESS, payload: data });
-    //     dispatch({ type: NOTE_DELETE_FINISH });
-    //   })
-    //   .catch(err => {
-    //     dispatch({ type: NOTE_DELETE_ERROR, payload: err });
-    //     dispatch({ type: NOTE_DELETE_FINISH });
-    //   });
   };
 };
 
 export const addNote = note => {
   return dispatch => {
     dispatch({ type: NOTE_ADD_START });
-    // console.log(Cookie);
 
-    axios({
-      method: 'post',
-      url: `http://127.0.0.1:8000/api/notes/`,
-      data: {
-        title: note.title,
-        content: note.content,
-      },
-      headers: {
-        Authorization: `Token ${localStorage.getItem(appK)}`,
-      },
-      // xsrfCookieName: 'csrftoken',
-      // xsrfHeaderName: 'X-CSRFToken',
-      // headers: {
-      //   'X-CSRFToken': getCookie('X-CSRFToken'),
-      //   'X-Requested-With': 'XMLHttpRequest',
-      //   'Content-Type': 'application/json',
-      // },
-    })
+    axios
+      .post(
+        `/api/notes/`,
+        { title: note.title, content: note.content },
+        { headers: { Authorization: `Token ${localStorage.getItem(appK)}` } },
+      )
       .then(({ data }) => {
         const note = { ...data, _id: data.id };
         delete note.id;
@@ -510,18 +308,5 @@ export const addNote = note => {
         dispatch({ type: NOTE_ADD_ERROR, payload: err });
         dispatch({ type: NOTE_ADD_FINISH });
       });
-
-    // axios
-    //   .post(`${ROOT}/notes`, note, {
-    //     headers: { authorization: localStorage.getItem(appK) },
-    //   })
-    //   .then(({ data }) => {
-    //     dispatch({ type: NOTE_ADD_SUCCESS, payload: data });
-    //     dispatch({ type: NOTE_ADD_FINISH });
-    //   })
-    //   .catch(err => {
-    //     dispatch({ type: NOTE_ADD_ERROR, payload: err });
-    //     dispatch({ type: NOTE_ADD_FINISH });
-    //   });
   };
 };
