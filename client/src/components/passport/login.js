@@ -8,8 +8,14 @@ import { login, resetErrors } from '../../actions';
 
 import Header from '../app/header';
 
+const appK = 'com.herokuapp.reactnotesapp-fwcdga47i';
+
 class Login extends Component {
   componentWillMount() {
+    if (localStorage.getItem(appK) && localStorage.getItem(appK + ',user')) {
+      this.props.history.push('/');
+    }
+
     this.props.resetErrors();
   }
 
