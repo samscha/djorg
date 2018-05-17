@@ -33,7 +33,6 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,8 +55,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,6 +84,9 @@ TEMPLATES = [
         },
     },
 ]
+
+CORS_ORIGIN_ALLOW_ALL = config(
+    'CORS_ORIGIN_ALLOW_ALL', default=False, cast=bool)
 
 CORS_ALLOW_CREDENTIALS = config(
     "CORS_ALLOW_CREDENTIALS", default=False, cast=bool)
